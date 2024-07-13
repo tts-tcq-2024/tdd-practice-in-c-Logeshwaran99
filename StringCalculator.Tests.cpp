@@ -59,3 +59,17 @@ TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString) {
     int result = add(input);
     ASSERT_EQ(result, expectedresult);
 }
+
+TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterAtStart) {
+    int expectedresult = 2;
+    const char* input = "\n2";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectSumWithOnlyCustomDelimiterAtStart) {
+    int expectedresult = 2;
+    const char* input = "\n";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
