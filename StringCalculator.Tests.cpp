@@ -45,10 +45,10 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
 
 TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
     const char* input = "5,-1,4";
-     int result = add(input);
+    add(input);
 }
 
-TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
+TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers2) {
     const char* input = "5,-1,-4";
      add(input);
 }
