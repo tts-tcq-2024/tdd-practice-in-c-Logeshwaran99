@@ -36,6 +36,12 @@ int processNumber(const char* numStr, int* negatives, int* neg_count) {
     return (number <= 1000) ? number : 0;
 }
 
+void handleNegatives(int negatives[], int neg_count) {
+    if (neg_count > 0) {
+        printf("negatives not allowed");
+        exit(1);
+    }
+}
 
 int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
     int sum = 0;
@@ -45,7 +51,7 @@ int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
     for (int i = 0; i < count; i++) {
         sum += processNumber(numbers[i], negatives, &neg_count);
     }
-
+    handleNegatives(negatives, neg_count);
     return sum;
 }
 
