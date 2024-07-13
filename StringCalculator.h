@@ -27,6 +27,14 @@ const char* parseDelimiter(const char* str, char delimiter[BUFFER_SIZE]) {
     return str;
 }
 
+int processNumber(const char* numStr, int* negatives, int* neg_count) {
+    int number = atoi(numStr);
+    if (number < 0) {
+        negatives[(*neg_count)++] = number;
+    }
+    return (number <= 1000) ? number : 0;
+}
+
 int calculateSum(const char* str, const char* delimiter) {
     char numbers[MAX_NUMBERS][BUFFER_SIZE];
     int count = 0;
@@ -37,13 +45,18 @@ int calculateSum(const char* str, const char* delimiter) {
     int neg_count = 0;
 
     for (int i = 0; i < count; i++) {
-        int number = atoi(numbers[i]);
-        if (number < 0) {
-            negatives[neg_count++] = number;
-        } else if (number <= 1000) {
-            sum += number;
-        }
+        sum += processNumber(numbers[i], negatives, &neg_count);
     }
+
+    if (neg_count > 0) {
+        printf("Negative numbers not allowed: ");
+        for (int i = 0; i < neg_count; i++) {
+            printf("%d ", negatives[i]);
+        }
+        printf("\n");
+        exit(1);
+    }
+
     return sum;
 }
 
