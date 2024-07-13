@@ -1,6 +1,3 @@
-#define MAX_NUMBERS 100
-#define BUFFER_SIZE 100
-
 void split(const char* str, const char* delimiter, char result[MAX_NUMBERS][BUFFER_SIZE], int* count) {
     char temp[BUFFER_SIZE];
     strcpy(temp, str);
@@ -35,26 +32,12 @@ int processNumber(const char* numStr, int* negatives, int* neg_count) {
     return (number <= 1000) ? number : 0;
 }
 
-int calculateSum(const char* str, const char* delimiter) {
-    char numbers[MAX_NUMBERS][BUFFER_SIZE];
-    int count = 0;
-    split(str, delimiter, numbers, &count);
 
+int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
     int sum = 0;
-    int negatives[MAX_NUMBERS];
-    int neg_count = 0;
 
     for (int i = 0; i < count; i++) {
-        sum += processNumber(numbers[i], negatives, &neg_count);
-    }
-
-    if (neg_count > 0) {
-        printf("Negative numbers not allowed: ");
-        for (int i = 0; i < neg_count; i++) {
-            printf("%d ", negatives[i]);
-        }
-        printf("\n");
-        exit(1);
+        sum += (numbers[i] <= 1000) ? number : 0;
     }
 
     return sum;
@@ -67,5 +50,10 @@ int add(const char* str) {
 
     char delimiter[BUFFER_SIZE];
     str = parseDelimiter(str, delimiter);
-    return calculateSum(str, delimiter);
+
+    char numbers[MAX_NUMBERS][BUFFER_SIZE];
+    int count = 0;
+    split(str, delimiter, numbers, &count);
+
+    return calculateSum(numbers, count);
 }
