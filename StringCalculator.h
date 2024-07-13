@@ -1,3 +1,7 @@
+#define MAX_NUMBERS 100
+#define BUFFER_SIZE 100
+
+
 void split(const char* str, const char* delimiter, char result[MAX_NUMBERS][BUFFER_SIZE], int* count) {
     char temp[BUFFER_SIZE];
     strcpy(temp, str);
@@ -35,9 +39,11 @@ int processNumber(const char* numStr, int* negatives, int* neg_count) {
 
 int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
     int sum = 0;
+    int negatives[MAX_NUMBERS];
+    int neg_count = 0;
 
     for (int i = 0; i < count; i++) {
-        sum += (numbers[i] <= 1000) ? number : 0;
+        sum += processNumber(numbers[i], negatives, &neg_count);
     }
 
     return sum;
