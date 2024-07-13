@@ -5,3 +5,8 @@ int isStringEmpty(const char * str)
     }
 return 0;
 }
+int add(const char * str)
+{
+  if(1==isStringEmpty(str))
+    return 0;
+}
