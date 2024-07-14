@@ -44,7 +44,7 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter2) {
-    const char*  input = "//\n1;2";
+    const char*  input = "//";
     int result = add(input);
 }
 
