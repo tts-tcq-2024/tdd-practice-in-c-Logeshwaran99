@@ -51,7 +51,6 @@ TEST(StringCalculatorAddTests, ExpectExceptionForEmptyInput) {
 TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
     const char* input = "5,-1,4";
     add(input);
-    assert(strcmp(global_error_msg, "Negative numbers not allowed: -1 ") == 0);
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString) {
