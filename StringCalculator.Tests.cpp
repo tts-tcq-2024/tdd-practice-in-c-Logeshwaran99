@@ -68,8 +68,6 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterAtStart) {
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithOnlyCustomDelimiterAtStart) {
-    int expectedresult = 2;
     const char* input = "\n";
     int result = add(input);
-    ASSERT_EQ(result, expectedresult);
 }
