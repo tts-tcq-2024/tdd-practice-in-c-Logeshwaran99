@@ -37,8 +37,7 @@ int processNumber(const char* numStr, int* negatives, int* neg_count) {
 
 void handleNegatives(int negatives[], int neg_count) {
     if (neg_count > 0) {
-        printf("Negatives not allowed")
-        }
+        printf("Negatives not allowed");
     }
 }
 
