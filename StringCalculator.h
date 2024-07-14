@@ -42,6 +42,7 @@ void handleNegatives(int negatives[], int neg_count) {
             printf("%d ", negatives[i]);
         }
         printf("\n");
+        exit(1);
     }
 }
 
