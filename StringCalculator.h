@@ -1,6 +1,7 @@
 #define MAX_NUMBERS 100
 #define BUFFER_SIZE 100
 
+char global_error_msg[BUFFER_SIZE];
 
 void split(const char* str, const char* delimiter, char result[MAX_NUMBERS][BUFFER_SIZE], int* count) {
     char temp[BUFFER_SIZE];
@@ -38,7 +39,12 @@ int processNumber(const char* numStr, int* negatives, int* neg_count) {
 
 void handleNegatives(int negatives[], int neg_count) {
     if (neg_count > 0) {
-        printf("negatives not allowed");
+        strcpy(global_error_msg, "Negative numbers not allowed: ");
+        for (int i = 0; i < neg_count; i++) {
+            char buffer[BUFFER_SIZE];
+            snprintf(buffer, BUFFER_SIZE, "%d ", negatives[i]);
+            strcat(global_error_msg, buffer);
+        }
     }
 }
 
@@ -51,10 +57,13 @@ int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
         sum += processNumber(numbers[i], negatives, &neg_count);
     }
     handleNegatives(negatives, neg_count);
+    if (neg_count > 0) {
+        return -1;  // Return -1 to indicate error due to negative numbers
     return sum;
 }
 
 int add(const char* str) {
+    global_error_msg[0] = '\0';  // Clear the global error message
     if (str == NULL || *str == '\0') {
         return 0;
     }
