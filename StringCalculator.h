@@ -54,7 +54,7 @@ int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
 }
 
 int add(const char* str) {
-    if (strlen(str) == 0) {
+    if (str == NULL || strlen(str) == 0) {
         return 0;
     }
 
