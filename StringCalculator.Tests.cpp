@@ -71,3 +71,8 @@ TEST(StringCalculatorAddTests, ExpectSumWithOnlyCustomDelimiterAtStart) {
     const char* input = "\n";
     int result = add(input);
 }
+
+TEST(StringCalculatorAddTests, ExpectSumWithNULL) {
+    const char* input = "NULL";
+    int result = add(input);
+}
