@@ -93,3 +93,16 @@ TEST(StringCalculatorAddTests, ExpectSumWithNULL) {
     const char* input = "NULL";
     int result = add(input);
 }
+
+TEST(StringCalculatorAddTests, NoNegativesHandled) {
+    int negatives[MAX_NUMBERS] = {};
+    int neg_count = 0; // Ensure neg_count is zero
+    handleNegatives(negatives, neg_count); // This should not print anything or exit
+}
+
+TEST(StringCalculatorAddTests, CalculateSumWithNoNegatives2) {
+    char numbers[MAX_NUMBERS][BUFFER_SIZE] = {"1", "2", "3"};
+    int count = 3;
+    int result = calculateSum(numbers, count);
+    EXPECT_EQ(result, 6); // 1 + 2 + 3 = 6
+}
