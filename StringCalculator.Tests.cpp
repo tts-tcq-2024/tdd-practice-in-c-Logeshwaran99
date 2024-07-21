@@ -58,7 +58,7 @@ TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
     add(input);
 }
 
-TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
+TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers2) {
     const char* input = "-5,-1,-4"; 
     add(input);
 }
