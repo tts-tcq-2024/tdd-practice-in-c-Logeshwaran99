@@ -106,3 +106,21 @@ TEST(StringCalculatorAddTests, CalculateSumWithNoNegatives2) {
     int result = calculateSum(numbers, count);
     EXPECT_EQ(result, 6); // 1 + 2 + 3 = 6
 }
+
+TEST(StringCalculatorAddTests, HandleNegativesWithSomeNegatives) {
+    int negatives[MAX_NUMBERS] = {-1, -2};
+    int neg_count = 2;
+    testing::internal::CaptureStdout();
+    handleNegatives(negatives, neg_count);
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_NE(output.find("Negatives not allowed: -1 -2"), std::string::npos);
+}
+
+TEST(StringCalculatorAddTests, HandleNegativesWithNoNegatives) {
+    int negatives[MAX_NUMBERS] = {};
+    int neg_count = 0;
+    testing::internal::CaptureStdout();
+    handleNegatives(negatives, neg_count);
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_TRUE(output.empty()); // No output expected
+}
