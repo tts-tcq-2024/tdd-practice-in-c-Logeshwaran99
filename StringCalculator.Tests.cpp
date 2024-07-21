@@ -121,7 +121,7 @@ TEST(StringCalculatorAddTests, CalculateSumWithNoNegatives) {
 }
 
 // Test for an empty string to verify that it results in zero.
-TEST(StringCalculatorAddTests, SumWithEmptyString) {
+TEST(StringCalculatorAddTests, SumWithEmptyString2) {
     int expected = 0;
     const char* input = "";
     int result = add(input);
