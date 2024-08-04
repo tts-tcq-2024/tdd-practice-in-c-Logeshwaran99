@@ -54,7 +54,7 @@ int calculateSum(char numbers[MAX_NUMBERS][BUFFER_SIZE], int count) {
     for (int i = 0; i < count; i++) {
         sum += processNumber(numbers[i], negatives, &neg_count);
     }
-    handleNegatives(negatives, neg_count); //can be done but for negative cases in runtime error will be produced and so build is failing
+    
     return sum;
 }
 
@@ -71,4 +71,5 @@ int add(const char* str) {
     split(str, delimiter, numbers, &count);
 
     return calculateSum(numbers, count);
+    handleNegatives(negatives, neg_count); //can be done but for negative cases in runtime error will be produced and so build is failing
 }
