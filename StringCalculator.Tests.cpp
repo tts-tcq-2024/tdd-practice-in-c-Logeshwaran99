@@ -51,10 +51,10 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterAtStart) {
 }
 
 // Test case for handling negative numbers
-/*TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
+TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
     const char* input = "1,-3,-4";
      add(input);
-}*/
+}
 
 TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString) {
     int expectedresult = 0;
@@ -82,8 +82,3 @@ TEST(StringCalculatorAddTests, ExpectNULL) {
     int result = add(input);
 }
 
-/*TEST(StringCalculatorAddTests, ExpectExceptionwithNegative) {
-    const char* input = "1,-2";
-    int result = add(input);
-    ASSERT_EQ(result, -1);
-}*/
