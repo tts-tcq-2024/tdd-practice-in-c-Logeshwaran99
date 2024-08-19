@@ -74,5 +74,10 @@ TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString_2) {
  
     const char*  input = "2/1";
     add(input);
-
 }
+
+TEST(StringCalculatorAddTests, ExpectExceptionwithNegative) {
+    const char* input = "1,-2";
+    int result = add(input);
+    ASSERT_EQ(result, -1);
+    ASSERT_STREQ(error_message, "Negative not allowed");
