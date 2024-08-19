@@ -2,83 +2,82 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_NUMBERS 100
-#define BUFFER_SIZE 100
+char error_message[128] = "";
 
-void split(const char* str, const char* delimiter, char result[MAX_NUMBERS][BUFFER_SIZE], int* count) {
-    char temp[BUFFER_SIZE];
-    strcpy(temp, str);
-
-    char* token = strtok(temp, delimiter);
-    while (token != NULL) {
-        strcpy(result[*count], token);
-        (*count)++;
-        token = strtok(NULL, delimiter);
-    }
+int isemptystring(const char* input) {
+    return (input == NULL || input[0] == '\0') ? 1 : 0;
 }
 
-const char* parseDelimiter(const char* str, char delimiter[BUFFER_SIZE]) {
-    if (strncmp(str, "//", 2) == 0) {
-        const char* newline = strchr(str, '\n');
-        if (newline != NULL) {
-            int len = newline - str - 2;
-            strncpy(delimiter, str + 2, len);
-            delimiter[len] = '\0';
-            return newline + 1;
-        }
-    }
-    strcpy(delimiter, ",\n");
-    return str;
+int islessthanthousand(const char *input_seg) {    
+    int value_check = atoi(input_seg);
+    return (value_check < 1000) ? value_check : 0;
 }
 
-int processNumber(const char* numStr) {
-    int number = atoi(numStr);
-    return number > 1000 ? 0 : number;
-}
-
-int calculateSum(const char* str, const char* delimiter) {
-    char numbers[MAX_NUMBERS][BUFFER_SIZE];
-    int count = 0;
-    split(str, delimiter, numbers, &count);
-
-    int sum = 0;
-    for (int i = 0; i < count; i++) {
-        sum += processNumber(numbers[i]);
-    }
-    return sum;
-}
-
-int Checkifnegative(const char* input, char* delimiter)
-{
-    char* dup_input = NULL;
-    dup_input = strdup (input);
-    char* input_seg = strtok(dup_input,delimiter);
-    while(input_seg != NULL)
-    {
+int Checkifnegative(const char* input, char* delimiter) {
+    char* dup_input = strdup(input);
+    char* input_seg = strtok(dup_input, delimiter);
+    while (input_seg != NULL) {
         int value_check = atoi(input_seg);
-        if(value_check < 0)
-        {
+        if (value_check < 0) {
+            free(dup_input);
             return -1;
         }
-        input_seg = strtok(NULL,delimiter);
+        input_seg = strtok(NULL, delimiter);
     }
+    free(dup_input);
     return 0;
 }
 
-int add(const char* str) {
-    if (strlen(str) == 0) {
+void appendcustomdelimiter(const char* input, char* delimiter) {
+    int i = 2; 
+    while (input[i] != '\n') {
+        char temp[2] = {input[i], '\0'}; // Use a null-terminated string
+        strncat(delimiter, temp, 1);
+        i++;
+    }
+}
+
+void checkcustomdelimiter(const char* input, char* delimiter) {
+    if (input[0] == '/' && input[1] == '/') {
+        strcpy(delimiter, "");
+        appendcustomdelimiter(input, delimiter);
+    }
+}
+
+int calculatesum(const char* input, char* delimiter) {
+    int sum = 0;
+    char* dup_input = strdup(input);
+    char* input_seg = strtok(dup_input, delimiter);
+    while (input_seg != NULL) {
+        sum += islessthanthousand(input_seg);
+        input_seg = strtok(NULL, delimiter);
+    }
+    free(dup_input);
+    return sum;
+}
+
+int add(const char* input) {
+    char delimiter[128] = ",\n";
+    if (isemptystring(input)) {
         return 0;
     }
-
-    char delimiter[BUFFER_SIZE];
-    const char* numbers = parseDelimiter(str, delimiter);
-    if(Checkifnegative(input, delimiter) == -1)
-    {
-        strcpy(error_message, "Negative not allowed");
+    checkcustomdelimiter(input, delimiter);
+    if (Checkifnegative(input, delimiter) == -1) {
+        strcpy(error_message, "Negatives not allowed");
         return -1;
     }
-    else
-    {
-        return calculatesum(input, delimiter);
+    return calculatesum(input, delimiter);
+}
+
+int main() {
+    const char* testStr = "//;\n1;2;-3;4";
+    int result = add(testStr);
+
+    if (result == -1) {
+        printf("%s\n", error_message);
+    } else {
+        printf("Sum: %d\n", result);
     }
+
+    return 0;
 }
