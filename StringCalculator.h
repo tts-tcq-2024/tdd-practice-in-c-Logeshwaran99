@@ -48,6 +48,23 @@ int calculateSum(const char* str, const char* delimiter) {
     return sum;
 }
 
+int Checkifnegative(const char* input, char* delimiter)
+{
+    char* dup_input = NULL;
+    dup_input = strdup (input);
+    char* input_seg = strtok(dup_input,delimiter);
+    while(input_seg != NULL)
+    {
+        int value_check = atoi(input_seg);
+        if(value_check < 0)
+        {
+            return -1;
+        }
+        input_seg = strtok(NULL,delimiter);
+    }
+    return 0;
+}
+
 int add(const char* str) {
     if (strlen(str) == 0) {
         return 0;
@@ -55,6 +72,13 @@ int add(const char* str) {
 
     char delimiter[BUFFER_SIZE];
     const char* numbers = parseDelimiter(str, delimiter);
-
-    return calculateSum(numbers, delimiter);
+    if(Checkifnegative(input, delimiter) == -1)
+    {
+        strcpy(error_message, "Negative not allowed");
+        return -1;
+    }
+    else
+    {
+        return calculatesum(input, delimiter);
+    }
 }
