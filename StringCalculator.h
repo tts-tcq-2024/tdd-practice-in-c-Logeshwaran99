@@ -7,31 +7,17 @@
 
 char error_message[ERROR_MESSAGE_SIZE] = "";
 
-// Utility function to check if a string is empty or null
-bool is_empty_string(const char* input) {
-    return (input == NULL || input[0] == '\0');
-}
-
-// Utility function to convert a string to an integer and return its value if less than 1000
-int get_value_if_valid(const char *input_seg) {
-    int value = atoi(input_seg);
-    return (value < 1000) ? value : 0;
-}
-
-// Utility function to append custom delimiters
-void append_custom_delimiter(const char* input, char* delimiter) {
-    strncat(delimiter, &input[2], strcspn(input + 2, "\n"));
-}
-
-// Utility function to check for custom delimiter in input
-void handle_custom_delimiter(const char* input, char* delimiter) {
+// Utility function to handle custom delimiters and return the final delimiter string
+void prepare_delimiter(const char* input, char* delimiter) {
     if (input[0] == '/' && input[1] == '/') {
         delimiter[0] = '\0';  // Clear the default delimiter
-        append_custom_delimiter(input, delimiter);
+        strncat(delimiter, &input[2], strcspn(input + 2, "\n"));
+    } else {
+        strcpy(delimiter, ",\n");
     }
 }
 
-// Core function to calculate sum and handle errors
+// Core function to process input, calculate sum, and handle errors
 int process_input(const char* input, const char* delimiter) {
     int sum = 0;
     bool negative_found = false;
@@ -49,7 +35,9 @@ int process_input(const char* input, const char* delimiter) {
             negative_found = true;
             break;
         }
-        sum += get_value_if_valid(token);
+        if (value < 1000) {
+            sum += value;
+        }
         token = strtok(NULL, delimiter);
     }
 
@@ -65,12 +53,12 @@ int process_input(const char* input, const char* delimiter) {
 
 // Main function to add numbers from a string input
 int add(const char* input) {
-    char delimiter[DELIMITER_SIZE] = ",\n";
+    char delimiter[DELIMITER_SIZE];
+    prepare_delimiter(input, delimiter);
 
-    if (is_empty_string(input)) {
+    if (input == NULL || input[0] == '\0') {
         return 0;
     }
 
-    handle_custom_delimiter(input, delimiter);
     return process_input(input, delimiter);
 }
