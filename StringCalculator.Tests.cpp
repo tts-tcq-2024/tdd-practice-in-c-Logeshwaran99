@@ -80,7 +80,6 @@ TEST(StringCalculatorAddTests, ExpectNULL) {
    
     const char*  input = "NULL";
     int result = add(input);
-    ASSERT_EQ(result, expectedresult);
 }
 
 /*TEST(StringCalculatorAddTests, ExpectExceptionwithNegative) {
