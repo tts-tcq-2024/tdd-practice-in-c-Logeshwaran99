@@ -76,9 +76,24 @@ TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString_2) {
     add(input);
 }
 
-TEST(StringCalculatorAddTests, ExpectNULL) {
-   
-    const char*  input = "NULL";
+TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter2) {
+    int expectedresult = 2;
+    const char*  input = "/1,2";
     int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectSumWithMultipleCustomDelimiter) {
+    int expectedresult = 6;
+    const char*  input = "//[***]\n1***2***3";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectZeroForNull) {
+    int expectedresult = 0;
+    const char* input = NULL;
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
 }
 
