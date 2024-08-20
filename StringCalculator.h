@@ -1,64 +1,84 @@
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-#define ERROR_MESSAGE_SIZE 128
-#define DELIMITER_SIZE 128
+char error_message[128] = "";
 
-char error_message[ERROR_MESSAGE_SIZE] = "";
-
-// Utility function to handle custom delimiters and return the final delimiter string
-void prepare_delimiter(const char* input, char* delimiter) {
-    if (input[0] == '/' && input[1] == '/') {
-        delimiter[0] = '\0';  // Clear the default delimiter
-        strncat(delimiter, &input[2], strcspn(input + 2, "\n"));
-    } else {
-        strcpy(delimiter, ",\n");
-    }
+// Function to check if a string is empty or NULL
+int isemptystring(const char* input) {
+    return (input == NULL || input[0] == '\0');
 }
 
-// Core function to process input, calculate sum, and handle errors
-int process_input(const char* input, const char* delimiter) {
-    int sum = 0;
-    bool negative_found = false;
+// Function to check if the integer value of a string is less than 1000
+int islessthanthousand(const char *input_seg) {    
+    int value = atoi(input_seg);
+    return (value < 1000) ? value : 0;
+}
 
+// Function to check for negative numbers in a string
+int Checkifnegative(const char* input, char* delimiter) {
     char* dup_input = strdup(input);
-    if (!dup_input) {
-        strcpy(error_message, "Memory allocation error");
-        return -1;
-    }
+    if (!dup_input) return -1;  // Handle strdup failure
 
-    char* token = strtok(dup_input, delimiter);
-    while (token != NULL) {
-        int value = atoi(token);
-        if (value < 0) {
-            negative_found = true;
-            break;
+    char* input_seg = strtok(dup_input, delimiter);
+    while (input_seg) {
+        if (atoi(input_seg) < 0) {
+            free(dup_input);
+            return -1;
         }
-        if (value < 1000) {
-            sum += value;
-        }
-        token = strtok(NULL, delimiter);
+        input_seg = strtok(NULL, delimiter);
     }
 
     free(dup_input);
+    return 0;
+}
 
-    if (negative_found) {
-        strcpy(error_message, "Negative values are not allowed");
-        return -1;
+// Function to append custom delimiter to the delimiter string
+void appendcustomdelimiter(const char* input, char* delimiter) {
+    int i = 2;
+    while (input[i] != '\0' && input[i] != '\n') {
+        strncat(delimiter, &input[i], 1);
+        i++;
+    }
+}
+
+// Function to check for a custom delimiter and append it
+void checkcustomdelimiter(const char* input, char* delimiter) {
+    if (input[0] == '/' && input[1] == '/') {
+        delimiter[0] = '\0'; // Clear existing delimiters
+        appendcustomdelimiter(input, delimiter);
+    }
+}
+
+// Function to calculate the sum of valid numbers in the input string
+int calculatesum(const char* input, char* delimiter) {
+    int sum = 0;
+    char* dup_input = strdup(input);
+    if (!dup_input) return -1;  // Handle strdup failure
+
+    char* input_seg = strtok(dup_input, delimiter);
+    while (input_seg) {
+        sum += islessthanthousand(input_seg);
+        input_seg = strtok(NULL, delimiter);
     }
 
+    free(dup_input);
     return sum;
 }
 
-// Main function to add numbers from a string input
+// Main function to add numbers based on the input string
 int add(const char* input) {
-    char delimiter[DELIMITER_SIZE];
-    prepare_delimiter(input, delimiter);
+    char delimiter[128] = ",\n";
 
-    if (input == NULL || input[0] == '\0') {
+    if (isemptystring(input)) {
         return 0;
     }
 
-    return process_input(input, delimiter);
+    checkcustomdelimiter(input, delimiter);
+
+    if (Checkifnegative(input, delimiter) == -1) {
+        strcpy(error_message, "Negative not allowed");
+        return -1;
+    }
+
+    return calculatesum(input, delimiter);
 }
