@@ -43,6 +43,13 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
     ASSERT_EQ(result, expectedresult);
 }
 
+TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter_2) {
+    int expectedresult = 6;
+    const char*  input = "//#\n1#2#3";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
 TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterAtStart) {
     int expectedresult = 2;
     const char*  input = "\n2";
@@ -52,8 +59,10 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiterAtStart) {
 
 // Test case for handling negative numbers
 TEST(StringCalculatorAddTests, ExpectExceptionForNegativeNumbers) {
-    const char* input = "1,-3,-4";
-     add(input);
+    const char* input = "1,-2";
+    int result = add(input);
+    ASSERT_EQ(result, -1);
+    ASSERT_STREQ(error_message, "Negative not allowed");
 }
 
 TEST(StringCalculatorAddTests, ExpectSumWithEmpptyString) {
@@ -97,3 +106,23 @@ TEST(StringCalculatorAddTests, ExpectZeroForNull) {
     ASSERT_EQ(result, expectedresult);
 }
 
+TEST(StringCalculatorAddTests, ExpectSumForThreeNumbers) {
+    int expectedresult = 6;
+    const char*  input = "1,2,3";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectSumForThreeThousandNumbers) {
+    int expectedresult = 0;
+    const char*  input = "1000,2000,3000";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
+
+TEST(StringCalculatorAddTests, ExpectZeroFornonumbers) {
+    int expectedresult = 0;
+    const char* input = "\n\n\n";
+    int result = add(input);
+    ASSERT_EQ(result, expectedresult);
+}
